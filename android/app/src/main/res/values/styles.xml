@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <!-- Show a splash screen on the activity. Automatically removed when
+             the Flutter engine draws its first frame -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <!-- Couleur du fond de l'écran de démarrage -->
+        <item name="windowSplashScreenBackground">@color/splash_background_color</item>
+        <!-- Icône animée au centre de l'écran (pour Android 12+) -->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_foreground_icon</item>-->
+        <!-- Durée de l'animation de l'icône, max 1000ms -->
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <!-- Le thème que l'application utilisera après le splash screen -->
+        <item name="postSplashScreenTheme">@style/NormalTheme</item>
+    </style>
+    <!-- Theme applied to the Android Window as soon as the process has started.
+         This theme determines the color of the Android Window while your
+         Flutter UI initializes, as well as behind your Flutter UI while its
+         running.
+
+         This Theme is only used starting with V2 of Flutter's Android embedding. -->
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- C'est votre icône qui sera animée sur Android 12+ -->
+<!-- Elle doit idéalement être simple (VectorDrawable ou Bitmap) et 1:1 -->
+<!-- Placez `toleka_icon.png` (votre icône de Toleka) dans `android/app/src/main/res/drawable/` ou `mipmap` -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/app_icon" />
+</layer-list>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fond de couleur -->
+    <item android:drawable="@color/splash_background_color" />
+
+    <!-- Votre logo centré (pour les anciennes versions d'Android) -->
+    <!-- Remplacez @drawable/your_logo par le chemin de votre fichier de logo -->
+    <!-- Placez votre fichier logo (ex: logo_toleka.png) dans `android/app/src/main/res/drawable/` -->
+    <item android:gravity="center">
+        <!-- Ajustez la taille du logo si nécessaire, par exemple, max 200dp -->
+        <bitmap android:src="@drawable/app_icon"
+            android:gravity="fill" />
+    </item>
+</layer-list>
+
