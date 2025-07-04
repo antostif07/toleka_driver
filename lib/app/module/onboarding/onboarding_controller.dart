@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../routes/app_pages.dart';
 
 class OnboardingController extends GetxController {
   final pageController = PageController();

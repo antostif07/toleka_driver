@@ -110,7 +110,7 @@ class HomeBottomsheetContent extends StatelessWidget {
               onPressed: () {
                 controller.toggleOnlineStatus();
               },
-              child: controller.currentDriver.value!.isOnline ? const Text(' Passez Hors-Ligne') : const Text('Passez En Ligne'),
+              child: controller.isOnline.value ? const Text(' Passez Hors-Ligne') : const Text('Passez En Ligne'),
             ),)
           ),
         ],

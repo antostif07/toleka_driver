@@ -62,7 +62,7 @@ class ProfileController extends GetxController {
       print("Photo de profil uploadée: $downloadUrl");
 
       // Mettre à jour l'URL dans Firestore via le HomeController
-      await homeController.updateDriverProfilePicture(downloadUrl);
+      // await homeController.updateDriverProfilePicture(downloadUrl);
 
       Get.snackbar('Succès', 'Photo de profil mise à jour !',
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.green);

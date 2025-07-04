@@ -137,43 +137,50 @@ class HomeScreen extends GetView<HomeController> {
               ),
             ),
 
-            Obx(() => AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              bottom: 0,
-              left: 50,
-              right: 50,
-              child: SizedBox(
-                height: buttonHeight,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary, // Le jaune du thème
-                    foregroundColor: Colors.black, // Texte noir
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    elevation: 5,
-                  ),
-                  onPressed: controller.toggleOnlineStatus,
-                  child: Text(
-                    controller.isOnline.value ? 'EN LIGNE' : 'HORS LIGNE',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            )),
+            // Obx(() => AnimatedPositioned(
+            //   duration: const Duration(milliseconds: 300),
+            //   curve: Curves.easeInOut,
+            //   bottom: 0,
+            //   left: 50,
+            //   right: 50,
+            //   child: SizedBox(
+            //     height: buttonHeight,
+            //     child: ElevatedButton(
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Theme.of(context).colorScheme.primary, // Le jaune du thème
+            //         foregroundColor: Colors.black, // Texte noir
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(30),
+            //         ),
+            //         elevation: 5,
+            //       ),
+            //       onPressed: controller.toggleOnlineStatus,
+            //       child: Text(
+            //         controller.isOnline.value ? 'EN LIGNE' : 'HORS LIGNE',
+            //         style: const TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // )),
 
 
             // 3. Le contenu du bottom sheet (déjà présent)
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: const HomeBottomsheetContent(), // Votre widget de contenu
-            ),
+            Obx(() {
+              if (controller.pendingRides.isNotEmpty && controller.isOnline.value) {
+                return const SizedBox.shrink(); // Ne rien afficher
+              } else {
+                // S'il n'y a pas de course, on affiche le panneau d'information principal.
+                return Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: const HomeBottomsheetContent(),
+                );
+              }
+            })
           ],
         );
       }),

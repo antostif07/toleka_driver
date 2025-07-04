@@ -6,6 +6,9 @@ import 'package:toleka_driver/app/theme/app_theme.dart';
 
 import 'app/routes/app_pages.dart';
 import 'app/services/auth_services.dart';
+import 'app/services/driver_location_service.dart';
+import 'app/services/driver_map_service.dart';
+import 'app/services/location_permission_service.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -15,6 +18,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  Get.put(LocationPermissionService(), permanent: true);
+  Get.put(DriverLocationService(), permanent: true);
+  Get.put(DriverMapService(), permanent: true);
 
   final authService = Get.put(AuthService(), permanent: true);
   authService.onReady;
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Toleka Chauffeur',
-      initialRoute: AppPages.INITIAL, // Sera défini dans vos routes
+      initialRoute: AppPages.initial, // Sera défini dans vos routes
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,

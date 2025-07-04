@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'earnings_history_controller.dart';
 
 class EarningsHistoryView extends GetView<EarningsHistoryController> {
-  const EarningsHistoryView({Key? key}) : super(key: key);
+  const EarningsHistoryView({super.key});
 
   @override
   Widget build(BuildContext context) {

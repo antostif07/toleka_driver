@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RideModel {
-  final String id; // L'ID du document de la course dans Firestore
+  final String? id; // L'ID du document de la course dans Firestore
   final String riderId; // L'UID du passager qui a demandé la course
   final String pickupAddress; // Adresse de départ
   final GeoPoint pickupLocation; // Coordonnées GPS de départ
@@ -13,6 +13,10 @@ class RideModel {
   final String status; // Statut de la course (ex: 'pending', 'accepted', 'started', 'completed', 'cancelled')
   final DateTime createdAt; // Timestamp de la création de la demande
 
+  final String vehicleType;
+  final int distance; // en mètres
+  final int duration; // en secondes
+
   // Informations qui peuvent être ajoutées plus tard
   final String? assignedDriverId; // L'UID du conducteur assigné à cette course
   final DateTime? acceptedAt; // Timestamp de l'acceptation par le conducteur
@@ -20,8 +24,10 @@ class RideModel {
   final DateTime? completedAt; // Timestamp de la fin de la course
   final DateTime? cancelledAt; // Timestamp de l'annulation de la course
 
+  final String encodedPolyline;
+
   RideModel({
-    required this.id,
+    this.id,
     required this.riderId,
     required this.pickupAddress,
     required this.pickupLocation,
@@ -29,13 +35,35 @@ class RideModel {
     required this.destinationLocation,
     required this.estimatedPrice,
     required this.status,
+    required this.vehicleType,
+    required this.distance,
+    required this.duration,
     required this.createdAt,
     this.assignedDriverId,
     this.acceptedAt,
     this.startedAt,
     this.completedAt,
     this.cancelledAt,
+    required this.encodedPolyline,
   });
+
+  Map<String, dynamic> toJsonForCreation() {
+    return {
+      'riderId': riderId,
+      'pickupAddress': pickupAddress,
+      'pickupLocation': pickupLocation,
+      'destinationAddress': destinationAddress,
+      'destinationLocation': destinationLocation,
+      'estimatedPrice': estimatedPrice,
+      'status': status,
+      'vehicleType': vehicleType,
+      'distance': distance,
+      'duration': duration,
+      'createdAt': FieldValue.serverTimestamp(), // Géré par le serveur
+      'assignedDriverId': null,
+      'encodedPolyline': encodedPolyline,
+    };
+  }
 
   /// Convertit un objet RideModel en une Map<String, dynamic> pour Firestore.
   Map<String, dynamic> toJson() {
@@ -53,6 +81,9 @@ class RideModel {
       'startedAt': startedAt,
       'completedAt': completedAt,
       'cancelledAt': cancelledAt,
+      'vehiculeType': vehicleType,
+      'duration': duration,
+      'distance': distance,
     };
   }
 
@@ -78,6 +109,10 @@ class RideModel {
       startedAt: (data['startedAt'] as Timestamp?)?.toDate(),
       completedAt: (data['completedAt'] as Timestamp?)?.toDate(),
       cancelledAt: (data['cancelledAt'] as Timestamp?)?.toDate(),
+      vehicleType: data['vehicleType'] ?? 'standard', // Valeur par défaut
+      distance: data['distance'] ?? 0,
+      duration: data['duration'] ?? 0,
+      encodedPolyline: data['encodedPolyline'] ?? '',
     );
   }
 
@@ -97,6 +132,10 @@ class RideModel {
     DateTime? startedAt,
     DateTime? completedAt,
     DateTime? cancelledAt,
+    String? vehicleType,
+    int? duration,
+    int? distance,
+    String? encodedPolyline,
   }) {
     return RideModel(
       id: id ?? this.id,
@@ -113,6 +152,10 @@ class RideModel {
       startedAt: startedAt ?? this.startedAt,
       completedAt: completedAt ?? this.completedAt,
       cancelledAt: cancelledAt ?? this.cancelledAt,
+      vehicleType: vehicleType ?? this.vehicleType,
+      duration: duration ?? this.duration,
+      distance: distance ?? this.distance,
+      encodedPolyline: encodedPolyline ?? this.encodedPolyline,
     );
   }
 }
