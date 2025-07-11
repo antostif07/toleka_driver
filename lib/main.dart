@@ -19,12 +19,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Get.put(AuthService(), permanent: true);
   Get.put(LocationPermissionService(), permanent: true);
   Get.put(DriverLocationService(), permanent: true);
   Get.put(DriverMapService(), permanent: true);
 
-  final authService = Get.put(AuthService(), permanent: true);
-  authService.onReady;
   runApp(const MyApp());
 }
 

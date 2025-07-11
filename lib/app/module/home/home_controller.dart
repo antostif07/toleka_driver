@@ -54,9 +54,6 @@ class HomeController extends GetxController {
   PointAnnotationManager? pointAnnotationManager;
   PointAnnotation? userLocationMarker;
   Uint8List? markerImage;
-  final RxBool isMapReady = false.obs;
-  late Rx<CameraOptions> currentCameraOptions;
-  final double _defaultZoom = 16.0;
 
   @override
   void onInit() {
@@ -190,40 +187,6 @@ class HomeController extends GetxController {
     final point = Point(coordinates: Position(initialPos.longitude, initialPos.latitude));
     _mapService.flyTo(point);
     _mapService.updateMarkerPosition(point);
-  }
-
-  Future<void> _updateDeviceLocation({bool isInitialLoad = false}) async {
-    isLocationLoading.value = true;
-    try {
-      geo.Position pos = await geo.Geolocator.getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
-      final newPoint = Point(coordinates: Position(pos.longitude, pos.latitude));
-      CameraState? camState = await mapboxMap?.getCameraState();
-
-      currentCameraOptions.value = CameraOptions(center: newPoint, zoom: camState?.zoom ?? _defaultZoom);
-      if (isInitialLoad) mapboxMap?.flyTo(currentCameraOptions.value, MapAnimationOptions(duration: 1500));
-      _updateMarkerOnMap(newPoint, iconBearing: pos.heading);
-    } catch (e) {
-      errorMessage.value = "Impossible d'obtenir la localisation: $e";
-    } finally {
-      isLocationLoading.value = false;
-    }
-  }
-
-  void _updateMarkerOnMap(Point position, {double iconBearing = 0.0}) async {
-    if (pointAnnotationManager == null || markerImage == null) return;
-    try {
-      if (userLocationMarker == null) {
-        userLocationMarker = await pointAnnotationManager?.create(PointAnnotationOptions(
-          geometry: position, image: markerImage, iconSize: 0.5, iconRotate: iconBearing,
-        ));
-      } else {
-        userLocationMarker!.geometry = position;
-        userLocationMarker!.iconRotate = iconBearing;
-        pointAnnotationManager?.update(userLocationMarker!);
-      }
-    } catch (e) {
-      print("Erreur de mise à jour du marqueur: $e");
-    }
   }
 
   // --- LOGIQUE UTILITAIRE ET FIREBASE ---

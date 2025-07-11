@@ -1,16 +1,13 @@
-// lib/app/modules/login/login_controller.dart
-
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toleka_driver/app/routes/app_pages.dart';
 
+import '../../services/auth_services.dart';
+
 class LoginController extends GetxController {
-  // Instances des services Firebase
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // Auth Service
+  final AuthService _authService = Get.find();
 
   // Contrôleurs pour les champs de texte
   final TextEditingController driverIdController = TextEditingController();
@@ -40,19 +37,19 @@ class LoginController extends GetxController {
     try {
       // 2. Récupérer l'e-mail associé à l'ID du conducteur depuis Firestore
       final String enteredDriverId = driverIdController.text.trim();
-      final String? email = await _getEmailFromDriverId(enteredDriverId);
+      final String? email = await _authService.getEmailFromDriverId(enteredDriverId);
 
       // Si aucun e-mail n'est trouvé, l'ID est incorrect.
       if (email == null) {
         throw FirebaseAuthException(
-          code: 'user-not-found', // On utilise un code standard pour simplifier la gestion d'erreur
+          code: 'user-not-found',
         );
       }
 
       // 3. Authentifier l'utilisateur avec l'e-mail trouvé et le mot de passe saisi
-      await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: passwordController.text.trim(),
+      await _authService.loginWithEmail(
+        email.trim(),
+        passwordController.text.trim(),
       );
 
       // 4. Si la connexion réussit, naviguer vers la page d'accueil
@@ -73,47 +70,21 @@ class LoginController extends GetxController {
         colorText: Colors.white,
       );
     } catch (e) {
-      // Gérer toute autre erreur potentielle
       Get.snackbar(
         'Erreur',
         'Une erreur inattendue est survenue.',
         snackPosition: SnackPosition.BOTTOM,
       );
     } finally {
-      // 6. Arrêter le chargement, que la connexion réussisse ou échoue
       isLoading.value = false;
-    }
-  }
-
-  /// Méthode privée pour interroger Firestore et trouver l'email d'un conducteur par son ID.
-  /// Retourne l'email sous forme de String, ou null si non trouvé.
-  Future<String?> _getEmailFromDriverId(String driverId) async {
-    try {
-      final querySnapshot = await _firestore
-          .collection('drivers')
-          .where('driverID', isEqualTo: driverId)
-          .limit(1)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        // Si un document est trouvé, retourner son champ 'email'
-        return querySnapshot.docs.first.data()['email'];
-      } else {
-        // Si aucun document ne correspond, retourner null
-        return null;
-      }
-    } catch (e) {
-      // Pour le débogage, il est bon de voir l'erreur dans la console
-      print("Erreur lors de la récupération de l'email depuis Firestore: $e");
-      return null;
     }
   }
 
   // Nettoyer les contrôleurs de texte lorsqu'on quitte l'écran
   @override
   void onClose() {
-    // driverIdController.dispose();
-    // passwordController.dispose();
+    driverIdController.dispose();
+    passwordController.dispose();
     super.onClose();
   }
 }

@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:124338391222:android:500d182ad7477c7968be17",
+        "android_client_info": {
+          "package_name": "com.tshiakani.toleka_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_QZl78QBpuSDu_K1ykmMc9_jkR-dK4Lc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:124338391222:android:eeee21d4922bfd4f68be17",
         "android_client_info": {
           "package_name": "com.tshiakani.toleka_driver"

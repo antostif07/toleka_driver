@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'toleka-1ed43',
     storageBucket: 'toleka-1ed43.firebasestorage.app',
   );
+
 }

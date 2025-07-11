@@ -20,12 +20,7 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo ou titre de l'application
-                Icon(
-                  Icons.local_taxi, // Ou une image de votre logo
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                Image.asset('assets/images/logo-pro.png',height: 60,),
                 const SizedBox(height: 16),
                 const Text(
                   'Bienvenue sur Toleka Pro',
