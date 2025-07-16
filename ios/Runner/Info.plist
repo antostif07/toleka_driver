@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Toleka Driver</string>
+		<string>Toleka Pro</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -47,5 +47,15 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>Toleka a besoin de votre position pour vous trouver des courses à proximité.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>Toleka utilise votre position en arrière-plan pour vous proposer des courses pertinentes.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Toleka utilise votre position en arrière-plan pour optimiser l'assignation des courses.</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Toleka a besoin de l'accès à votre caméra pour mettre à jour votre photo de profil.</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Toleka a besoin de l'accès à votre galerie pour choisir une photo de profil.</string>
 	</dict>
 </plist>

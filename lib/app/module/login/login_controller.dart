@@ -1,7 +1,7 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:toleka_driver/app/routes/app_pages.dart';
 
 import '../../services/auth_services.dart';
 
@@ -35,9 +35,15 @@ class LoginController extends GetxController {
     isLoading.value = true;
 
     try {
-      // 2. Récupérer l'e-mail associé à l'ID du conducteur depuis Firestore
+      // 2. Récupérer l'e-mail associé à l'ID du conducteur depuis Firestore via Cloud Functions
       final String enteredDriverId = driverIdController.text.trim();
-      final String? email = await _authService.getEmailFromDriverId(enteredDriverId);
+      final HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'europe-west1').httpsCallable('getDriverEmailFromId');
+
+      final HttpsCallableResult result = await callable.call({
+        'driverId': enteredDriverId,
+      });
+
+      final String? email = result.data['email'];
 
       // Si aucun e-mail n'est trouvé, l'ID est incorrect.
       if (email == null) {
@@ -51,10 +57,6 @@ class LoginController extends GetxController {
         email.trim(),
         passwordController.text.trim(),
       );
-
-      // 4. Si la connexion réussit, naviguer vers la page d'accueil
-      Get.offAllNamed(Routes.home);
-
     } on FirebaseAuthException catch (e) {
       // 5. Gérer les erreurs d'authentification et afficher un message clair
       String errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
@@ -70,6 +72,7 @@ class LoginController extends GetxController {
         colorText: Colors.white,
       );
     } catch (e) {
+      print(e);
       Get.snackbar(
         'Erreur',
         'Une erreur inattendue est survenue.',

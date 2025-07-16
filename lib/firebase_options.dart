@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -58,6 +55,15 @@ class DefaultFirebaseOptions {
     messagingSenderId: '124338391222',
     projectId: 'toleka-1ed43',
     storageBucket: 'toleka-1ed43.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBz_MOQhegGZzTMzg6HEKRbNhZ7yPxr7F0',
+    appId: '1:124338391222:ios:f74e5aacc3188f5a68be17',
+    messagingSenderId: '124338391222',
+    projectId: 'toleka-1ed43',
+    storageBucket: 'toleka-1ed43.firebasestorage.app',
+    iosBundleId: 'com.tshiakani.tolekaDriver',
   );
 
 }
