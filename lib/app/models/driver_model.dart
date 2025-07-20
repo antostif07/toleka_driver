@@ -1,5 +1,3 @@
-// lib/app/data/models/driver_model.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Driver {
@@ -9,6 +7,7 @@ class Driver {
   final String email; // E-mail utilisé pour l'authentification Firebase en coulisses
   final String phoneNumber;
   String? profilePictureUrl; // URL de l'image de profil (optionnel)
+  final bool? profileCompleted;
 
   // Informations sur le véhicule
   final String vehicleModel;
@@ -47,9 +46,9 @@ class Driver {
     this.dailyEarnings = 0.0, // Par défaut, 0 gains
     required this.createdAt,
     this.updatedAt,
+    this.profileCompleted,
   });
 
-  /// Convertit un objet Driver en une Map<String, dynamic> pour Firestore.
   /// Utile pour les opérations `set` ou `update`.
   Map<String, dynamic> toJson() {
     return {
@@ -68,8 +67,9 @@ class Driver {
       'rating': rating,
       'totalRides': totalRides,
       'dailyEarnings': dailyEarnings,
-      'createdAt': createdAt, // Utilisez FieldValue.serverTimestamp() lors de la création initiale
-      'updatedAt': FieldValue.serverTimestamp(), // Met à jour le timestamp à chaque modification
+      'createdAt': createdAt,
+      'updatedAt': FieldValue.serverTimestamp(),
+      'profileCompleted': profileCompleted ?? false,
     };
   }
 
@@ -101,6 +101,7 @@ class Driver {
       // Convertit le Timestamp de Firestore en DateTime
       createdAt: (data['createdAt'] as Timestamp? ?? Timestamp.now()).toDate(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate(),
+      profileCompleted: data['profileCompleted'] ?? false,
     );
   }
 
@@ -125,6 +126,7 @@ class Driver {
     double? dailyEarnings,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? profileCompleted,
   }) {
     return Driver(
       id: id ?? this.id,
@@ -145,6 +147,7 @@ class Driver {
       dailyEarnings: dailyEarnings ?? this.dailyEarnings,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      profileCompleted: profileCompleted ?? this.profileCompleted,
     );
   }
 }

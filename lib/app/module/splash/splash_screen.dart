@@ -1,4 +1,3 @@
-// lib/app/modules/splash/splash_screen.dart
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -6,9 +5,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ce widget ne fait plus rien d'intelligent.
-    // Il attend que AuthService fasse la redirection.
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
         color: Colors.black,
         child: Column(

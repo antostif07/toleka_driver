@@ -76,4 +76,28 @@ class AppTheme {
 
     // ... vous pouvez ajouter d'autres personnalisations ici (CardTheme, etc.)
   );
+
+  static final TextStyle onboardingHeadline = GoogleFonts.plusJakartaSans(
+    fontSize: 24.0, // Grande taille pour un impact maximal
+    fontWeight: FontWeight.bold, // Très gras
+    color: Colors.white,
+    height: 1.2, // Hauteur de ligne pour rapprocher les deux lignes
+    letterSpacing: -1.0, // Espacement légèrement réduit pour un look plus compact
+    shadows: [
+      // Une ombre subtile pour détacher le texte de l'image de fond
+      const Shadow(
+        blurRadius: 10.0,
+        color: Colors.black54,
+        offset: Offset(0, 2),
+      ),
+    ],
+  );
+
+  // Style pour le sous-titre : "Make money by helping..."
+  static final TextStyle onboardingSubtitle = GoogleFonts.plusJakartaSans(
+    fontSize: 12.0, // Taille de corps de texte lisible
+    fontWeight: FontWeight.w500, // Un peu plus que normal, mais pas gras
+    color: Colors.white.withOpacity(0.85), // Blanc légèrement transparent pour moins de proéminence
+    height: 1.5, // Hauteur de ligne aérée pour la lisibilité
+  );
 }
