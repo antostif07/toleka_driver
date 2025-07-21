@@ -19,6 +19,21 @@ class Step1PersonalInfo extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Étape 1 sur 5", style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Indiquez vos informations personnelles",
+                    style: GoogleFonts.plusJakartaSans(fontSize: 24, fontWeight: FontWeight.bold, height: 1.2),
+                  ),
+                ],
+              ),
+            ),
+
             _buildTextField(
               controller: controller.fullNameController,
               label: "Nom",
@@ -56,20 +71,6 @@ class Step1PersonalInfo extends StatelessWidget {
             // Termes et Conditions
             _buildTermsAndConditions(),
             const SizedBox(height: 24),
-
-            // Bouton de création de compte
-            SizedBox(
-              width: double.infinity,
-              child: Obx(() => ElevatedButton(
-                onPressed: controller.isLoading.value ? null : controller.completeProfile,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: controller.isLoading.value
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white))
-                    : const Text("Compléter mon profil", style: TextStyle(fontSize: 16)),
-              )),
-            ),
           ],
         ),
       ),

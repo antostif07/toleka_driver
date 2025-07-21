@@ -60,6 +60,14 @@ class AppTheme {
       ),
     ),
 
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: _textColorDark,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        )
+      )
+    ),
     // Champs de texte
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

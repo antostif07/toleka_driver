@@ -38,11 +38,9 @@ class Step0VehiclePreference extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Étape 1 sur 4", style: TextStyle(fontSize: 16, color: Colors.grey)),
-                const SizedBox(height: 8),
                 Text(
                   "Indiquez votre préférence de véhicule",
-                  style: GoogleFonts.plusJakartaSans(fontSize: 32, fontWeight: FontWeight.bold, height: 1.2),
+                  style: GoogleFonts.plusJakartaSans(fontSize: 24, fontWeight: FontWeight.bold, height: 1.2),
                 ),
               ],
             ),
