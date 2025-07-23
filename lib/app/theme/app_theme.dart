@@ -105,7 +105,7 @@ class AppTheme {
   static final TextStyle onboardingSubtitle = GoogleFonts.plusJakartaSans(
     fontSize: 12.0, // Taille de corps de texte lisible
     fontWeight: FontWeight.w500, // Un peu plus que normal, mais pas gras
-    color: Colors.white.withOpacity(0.85), // Blanc légèrement transparent pour moins de proéminence
+    color: Colors.white.withAlpha((0.85 * 255).toInt()), // Blanc légèrement transparent pour moins de proéminence
     height: 1.5, // Hauteur de ligne aérée pour la lisibilité
   );
 }

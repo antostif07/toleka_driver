@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../routes/app_pages.dart';
 
 class DriverPrefs extends StatelessWidget {
   const DriverPrefs({super.key});
@@ -17,8 +20,7 @@ class DriverPrefs extends StatelessWidget {
         // InkWell permet d'avoir l'effet d'ondulation au clic sur toute la carte
         child: InkWell(
           onTap: () {
-            // Action à exécuter lors du clic sur les préférences
-            print("Ouverture des préférences de conduite...");
+            Get.toNamed(Routes.driverPreferences);
           },
           borderRadius: BorderRadius.circular(12),
           child: ListTile(

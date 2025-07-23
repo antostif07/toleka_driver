@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../models/driver_model.dart';
+import '../module/driver_preferences/driver_preferences_model.dart';
 import '../routes/app_pages.dart';
 
 class AuthService extends GetxService {
@@ -129,6 +130,12 @@ class AuthService extends GetxService {
     } catch (e) {
       throw Exception('Une erreur inattendue est survenue: $e');
     }
+  }
+
+  Future<void> updateDriverPreferences(DriverPreferences newPreferences) async {
+    if (currentDriver == null) throw Exception("Utilisateur non connecté.");
+    final driverDocRef = _firestore.collection('drivers').doc(currentDriver!.id);
+    await driverDocRef.update({'preferences': newPreferences.toMap()});
   }
 
   // Fonctions d'aide pour les messages d'erreur Firebase

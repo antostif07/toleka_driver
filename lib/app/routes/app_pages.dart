@@ -1,13 +1,15 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
-import 'package:toleka_driver/app/module/auth/profile_completion/profil_completion_binding.dart';
 import '../module/auth/get_started/get_started_view.dart';
 import '../module/auth/login/login_binding.dart';
 import '../module/auth/login/login_view.dart';
 import '../module/auth/otp/otp_view.dart';
+import '../module/auth/profile_completion/profil_completion_binding.dart';
 import '../module/auth/profile_completion/profile_completion_view.dart';
 import '../module/auth/register/register_binding.dart';
 import '../module/auth/register/register_screen.dart';
+import '../module/driver_preferences/driver_preferences_binding.dart';
+import '../module/driver_preferences/driver_preferences_screen.dart';
 import '../module/earnings_history/earnings_history_binding.dart';
 import '../module/earnings_history/earnings_history_view.dart';
 import '../module/home/home_binding.dart';
@@ -53,7 +55,9 @@ class AppPages {
       name: Routes.home,
       page: () => HomeScreen(),
       binding: HomeBinding(),
+      transition: Transition.leftToRight,
     ),
+    GetPage(name: Routes.driverPreferences, page: () => const DriverPreferencesScreen(), binding: DriverPreferencesBinding(), transition: Transition.leftToRight),
     GetPage(
       name: Routes.profile,
       page: () => const ProfileView(),

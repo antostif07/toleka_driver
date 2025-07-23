@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../module/driver_preferences/driver_preferences_model.dart';
+
 class Driver {
   final String id;
   final String driverID;
@@ -9,6 +11,7 @@ class Driver {
   String? profilePictureUrl; // URL de l'image de profil (optionnel)
   final bool? profileCompleted;
   final bool? isApproved;
+  final DriverPreferences preferences;
 
   // Informations sur le véhicule
   final String vehicleModel;
@@ -37,6 +40,7 @@ class Driver {
     this.profilePictureUrl,
     this.profileCompleted,
     this.isApproved,
+    required this.preferences,
     required this.vehicleModel,
     required this.vehicleMark,
     required this.vehicleColor,
@@ -61,6 +65,7 @@ class Driver {
       'profilePictureUrl': profilePictureUrl,
       'profileCompleted': profileCompleted ?? false,
       'isApproved': isApproved ?? false,
+      'preferences': preferences.toMap(),
       'vehicleModel': vehicleModel,
       'vehicleMark': vehicleMark,
       'vehicleColor': vehicleColor,
@@ -93,6 +98,7 @@ class Driver {
       profilePictureUrl: data['profilePictureUrl'] as String?,
       profileCompleted: data['profileCompleted'] ?? false,
       isApproved: data['isApproved'] ?? false,
+      preferences: DriverPreferences.fromMap(data['preferences'] as Map<String, dynamic>?),
       vehicleModel: data['vehicleModel'] ?? '',
       vehicleMark: data['vehicleMark'] ?? '',
       vehicleColor: data['vehicleColor'] ?? '',
@@ -120,6 +126,7 @@ class Driver {
     String? profilePictureUrl,
     bool? profileCompleted,
     bool? isApproved,
+    DriverPreferences? preferences,
     String? vehicleModel,
     String? vehicleMark,
     String? vehicleColor,
@@ -141,6 +148,7 @@ class Driver {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
       profileCompleted: profileCompleted ?? this.profileCompleted,
+      preferences: preferences ?? this.preferences,
       isApproved: isApproved ?? this.isApproved,
       vehicleModel: vehicleModel ?? this.vehicleModel,
       vehicleMark: vehicleMark ?? this.vehicleMark,

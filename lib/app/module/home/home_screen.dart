@@ -97,8 +97,8 @@ class HomeScreen extends GetView<HomeController> {
                     shape: const StadiumBorder(),
                     backgroundColor: controller.isOnline.value ? Colors.red : Colors.green,
                     disabledBackgroundColor: controller.isOnline.value
-                        ? Colors.red.withOpacity(0.5)
-                        : Colors.green.withOpacity(0.5),
+                        ? Colors.red.withAlpha((0.5 * 255).toInt())
+                        : Colors.green.withAlpha((0.5 * 255).toInt()),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   ),
                   child: controller.isLoading.value
@@ -113,7 +113,7 @@ class HomeScreen extends GetView<HomeController> {
                       : Text(
                     controller.isOnline.value ? 'Passez Hors Ligne' : 'Passez En Ligne',
                     style: const TextStyle(
-                      fontSize: 14, // Police légèrement plus petite pour le français
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -127,6 +127,7 @@ class HomeScreen extends GetView<HomeController> {
             top: 50,
             left: 20,
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {},
               backgroundColor: Colors.white,
               mini: true,
@@ -135,7 +136,6 @@ class HomeScreen extends GetView<HomeController> {
           ),
           Obx(() {
             return controller.panelPosition.value > 0.0 ? SizedBox.shrink() : Positioned(
-              // Positionné par rapport au bas du panel replié
               bottom: panelMinHeight + 80,
               right: 20,
               child: FloatingActionButton(
@@ -180,9 +180,6 @@ class HomeScreen extends GetView<HomeController> {
 
         const Divider(height: 1, thickness: 1),
 
-        // Le contenu de l'onglet change ici.
-        // `Expanded` est crucial pour que IndexedStack remplisse l'espace restant
-        // dans la colonne, permettant à son enfant de défiler.
         Expanded(
           child: Obx(
                 () => IndexedStack(
@@ -216,7 +213,7 @@ class HomeScreen extends GetView<HomeController> {
 
     return Obx(() {
       final bool isSelected = controller.selectedTabIndex.value == index;
-      final Color activeColor = Theme.of(context).primaryColor; // Utilise la couleur primaire du thème
+      final Color activeColor = Colors.black; // Utilise la couleur primaire du thème
       final Color inactiveColor = Colors.grey;
 
       return Padding(
