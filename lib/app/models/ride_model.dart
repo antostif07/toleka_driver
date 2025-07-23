@@ -159,3 +159,22 @@ class RideModel {
     );
   }
 }
+
+class DailyActivity {
+  final DateTime date;
+  final List<Ride> rides;
+
+  DailyActivity({required this.date, required this.rides});
+
+  // Calcule le total des gains pour la journée.
+  double get dailyTotal => rides.fold(0.0, (sum, ride) => sum + ride.amount);
+}
+
+/// Représente une seule course effectuée.
+class Ride {
+  final String destination;
+  final DateTime timestamp;
+  final double amount;
+
+  Ride({required this.destination, required this.timestamp, required this.amount});
+}

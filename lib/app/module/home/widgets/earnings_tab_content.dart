@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:toleka_driver/app/module/home/widgets/driver_stats.dart';
+import 'package:toleka_driver/app/routes/app_pages.dart';
 
 class EarningsTabContent extends StatelessWidget {
   const EarningsTabContent({super.key});
@@ -86,7 +88,9 @@ class TodaysActivityWidget extends StatelessWidget {
           const SizedBox(height: 16),
           Center(
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.rideActivity);
+              },
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -134,7 +138,7 @@ class _WeeklySummaryWidgetState extends State<WeeklySummaryWidget> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-      color: Colors.blueGrey[50]?.withOpacity(0.5), // Fond gris-bleu très clair
+      color: Colors.blueGrey[50]?.withAlpha((0.5 * 255).toInt()), // Fond gris-bleu très clair
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

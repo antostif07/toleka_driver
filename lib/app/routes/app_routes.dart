@@ -9,6 +9,7 @@ abstract class Routes {
   static const register = '/register';
   static const home = "/home";
   static const driverPreferences = '/driver-preferences';
+  static const rideActivity = '/ride-activity';
   static const profile = '/profile';
   static const rideRequests = '/ride-requests';
   static const rideTracking = "/ride-tracking";

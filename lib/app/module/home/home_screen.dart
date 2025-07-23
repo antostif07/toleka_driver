@@ -288,18 +288,4 @@ class HomeScreen extends GetView<HomeController> {
       ),
     );
   }
-
-  /// Contenu de l'onglet "Earnings" (pour l'instant, un placeholder).
-  Widget _buildEarningsTabContent(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.show_chart, size: 50, color: Colors.grey),
-          SizedBox(height: 16),
-          Text("Les statistiques de gains apparaîtront ici", style: TextStyle(color: Colors.grey)),
-        ],
-      ),
-    );
-  }
 }

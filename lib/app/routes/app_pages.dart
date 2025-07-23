@@ -1,5 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
+import 'package:toleka_driver/app/module/ride_activity/ride_activity_binding.dart';
+import 'package:toleka_driver/app/module/ride_activity/ride_activity_screen.dart';
 import '../module/auth/get_started/get_started_view.dart';
 import '../module/auth/login/login_binding.dart';
 import '../module/auth/login/login_view.dart';
@@ -58,6 +60,7 @@ class AppPages {
       transition: Transition.leftToRight,
     ),
     GetPage(name: Routes.driverPreferences, page: () => const DriverPreferencesScreen(), binding: DriverPreferencesBinding(), transition: Transition.leftToRight),
+    GetPage(name: Routes.rideActivity, page: () => RideActivityScreen(), binding: RideActivityBinding(), transition: Transition.leftToRight),
     GetPage(
       name: Routes.profile,
       page: () => const ProfileView(),
