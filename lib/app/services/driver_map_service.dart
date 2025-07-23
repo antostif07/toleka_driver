@@ -41,6 +41,25 @@ class DriverMapService extends GetxService {
     }
   }
 
+  /// Supprime le marqueur de l'utilisateur de la carte.
+  Future<void> removeUserMarker() async {
+    // 1. Vérifier que le manager et le marqueur existent
+    if (pointAnnotationManager != null && userLocationMarker != null) {
+      try {
+        // 2. Demander au manager de supprimer l'annotation
+        await pointAnnotationManager?.delete(userLocationMarker!);
+        print("[MapService] Marqueur utilisateur supprimé de la carte.");
+
+        // 3. Réinitialiser notre référence locale à null
+        // C'est crucial pour que la prochaine appelée à `updateMarkerPosition`
+        // sache qu'elle doit en CRÉER un nouveau.
+        userLocationMarker = null;
+      } catch (e) {
+        print("[MapService] Erreur lors de la suppression du marqueur: $e");
+      }
+    }
+  }
+
   void flyTo(Point point, {double zoom = 16.0}) {
     mapboxMap?.flyTo(
       CameraOptions(center: point, zoom: zoom),

@@ -8,6 +8,7 @@ class Driver {
   final String phoneNumber;
   String? profilePictureUrl; // URL de l'image de profil (optionnel)
   final bool? profileCompleted;
+  final bool? isApproved;
 
   // Informations sur le véhicule
   final String vehicleModel;
@@ -34,6 +35,8 @@ class Driver {
     required this.email,
     required this.phoneNumber,
     this.profilePictureUrl,
+    this.profileCompleted,
+    this.isApproved,
     required this.vehicleModel,
     required this.vehicleMark,
     required this.vehicleColor,
@@ -46,7 +49,6 @@ class Driver {
     this.dailyEarnings = 0.0, // Par défaut, 0 gains
     required this.createdAt,
     this.updatedAt,
-    this.profileCompleted,
   });
 
   /// Utile pour les opérations `set` ou `update`.
@@ -57,6 +59,8 @@ class Driver {
       'email': email,
       'phoneNumber': phoneNumber,
       'profilePictureUrl': profilePictureUrl,
+      'profileCompleted': profileCompleted ?? false,
+      'isApproved': isApproved ?? false,
       'vehicleModel': vehicleModel,
       'vehicleMark': vehicleMark,
       'vehicleColor': vehicleColor,
@@ -69,7 +73,6 @@ class Driver {
       'dailyEarnings': dailyEarnings,
       'createdAt': createdAt,
       'updatedAt': FieldValue.serverTimestamp(),
-      'profileCompleted': profileCompleted ?? false,
     };
   }
 
@@ -88,6 +91,8 @@ class Driver {
       email: data['email'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',
       profilePictureUrl: data['profilePictureUrl'] as String?,
+      profileCompleted: data['profileCompleted'] ?? false,
+      isApproved: data['isApproved'] ?? false,
       vehicleModel: data['vehicleModel'] ?? '',
       vehicleMark: data['vehicleMark'] ?? '',
       vehicleColor: data['vehicleColor'] ?? '',
@@ -101,7 +106,6 @@ class Driver {
       // Convertit le Timestamp de Firestore en DateTime
       createdAt: (data['createdAt'] as Timestamp? ?? Timestamp.now()).toDate(),
       updatedAt: (data['updatedAt'] as Timestamp?)?.toDate(),
-      profileCompleted: data['profileCompleted'] ?? false,
     );
   }
 
@@ -114,6 +118,8 @@ class Driver {
     String? email,
     String? phoneNumber,
     String? profilePictureUrl,
+    bool? profileCompleted,
+    bool? isApproved,
     String? vehicleModel,
     String? vehicleMark,
     String? vehicleColor,
@@ -126,7 +132,6 @@ class Driver {
     double? dailyEarnings,
     DateTime? createdAt,
     DateTime? updatedAt,
-    bool? profileCompleted,
   }) {
     return Driver(
       id: id ?? this.id,
@@ -135,6 +140,8 @@ class Driver {
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
+      profileCompleted: profileCompleted ?? this.profileCompleted,
+      isApproved: isApproved ?? this.isApproved,
       vehicleModel: vehicleModel ?? this.vehicleModel,
       vehicleMark: vehicleMark ?? this.vehicleMark,
       vehicleColor: vehicleColor ?? this.vehicleColor,
@@ -147,7 +154,6 @@ class Driver {
       dailyEarnings: dailyEarnings ?? this.dailyEarnings,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      profileCompleted: profileCompleted ?? this.profileCompleted,
     );
   }
 }

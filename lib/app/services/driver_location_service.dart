@@ -7,14 +7,15 @@ class DriverLocationService extends GetxService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   StreamSubscription<geo.Position>? _positionStreamSubscription;
 
+  // La variable que tout le monde écoutera
+  final Rx<geo.Position?> currentUserPosition = Rx<geo.Position?>(null);
+
   String? _currentDriverId;
 
   // Méthode pour démarrer le suivi
   void startUpdating(String driverId) {
     if (_positionStreamSubscription != null) return; // Déjà en cours
     _currentDriverId = driverId;
-
-    print("[LocationService] Démarrage du suivi de position pour le chauffeur $driverId");
 
     // Assurez-vous que les permissions sont déjà gérées avant d'appeler cette méthode
     _positionStreamSubscription = geo.Geolocator.getPositionStream(
@@ -23,6 +24,7 @@ class DriverLocationService extends GetxService {
         distanceFilter: 10,
       ),
     ).listen((position) {
+      currentUserPosition.value = position;
       _updateDriverLocationInFirestore(position);
     });
   }
@@ -32,6 +34,7 @@ class DriverLocationService extends GetxService {
     _positionStreamSubscription?.cancel();
     _positionStreamSubscription = null;
     _currentDriverId = null;
+    currentUserPosition.value = null;
     print("[LocationService] Arrêt du suivi de position.");
   }
 

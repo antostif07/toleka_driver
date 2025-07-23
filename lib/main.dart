@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:toleka_driver/app/theme/app_theme.dart';
 
 import 'app/routes/app_pages.dart';
 import 'app/services/auth_services.dart';
 import 'app/services/driver_location_service.dart';
 import 'app/services/driver_map_service.dart';
 import 'app/services/location_permission_service.dart';
+import 'app/theme/app_theme.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

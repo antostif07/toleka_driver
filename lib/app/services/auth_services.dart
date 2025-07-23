@@ -1,4 +1,4 @@
-// lib/app/services/auth_service.dart
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -12,11 +12,12 @@ class AuthService extends GetxService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseFunctions _functions = FirebaseFunctions.instanceFor(region: 'europe-west1');
-  final Rxn<Driver> _currentDriver = Rxn<Driver>();
   final verificationId = "".obs;
 
-  Stream<Driver?> get driverStream => _currentDriver.stream;
+  final Rxn<Driver> _currentDriver = Rxn<Driver>();
   Driver? get currentDriver => _currentDriver.value;
+  Rxn<Driver> get driver => _currentDriver;
+  StreamSubscription<DocumentSnapshot>? _driverSubscription;
 
   @override
   void onInit() {
@@ -26,48 +27,58 @@ class AuthService extends GetxService {
 
   Future<void> _handleAuthChanged(User? firebaseUser) async {
     await Future.delayed(Duration.zero);
+    await _driverSubscription?.cancel();
     if (firebaseUser == null) {
       _currentDriver.value = null;
       Get.offAllNamed(Routes.getStarted);
     } else {
-      await _checkAndFinalizeDriverProfile(firebaseUser.uid);
+      _driverSubscription = _firestore
+          .collection('drivers')
+          .doc(firebaseUser.uid)
+          .snapshots()
+          .listen(
+          _onDriverDocumentChanged, // Appelle cette méthode à chaque changement
+          onError: (error) {
+            Get.snackbar('Erreur de Synchronisation', 'Impossible d\'écouter votre profil en temps réel.');
+            logout(); // En cas d'erreur grave (ex: droits), on déconnecte
+          }
+      );
     }
   }
 
-  /// Vérifie si un profil chauffeur existe. Si non, le crée via la Cloud Function.
-  Future<void> _checkAndFinalizeDriverProfile(String uid) async {
-    try {
-      final driverDocRef = _firestore.collection('drivers').doc(uid);
-      final docSnapshot = await driverDocRef.get();
+  Future<void> _onDriverDocumentChanged(DocumentSnapshot<Map<String, dynamic>> docSnapshot) async {
+    if (docSnapshot.exists) {
+      // Le document existe, on le met à jour
+      final driver = Driver.fromFirestore(docSnapshot);
+      _currentDriver.value = driver;
 
-      if (docSnapshot.exists) {
-        _currentDriver.value = Driver.fromFirestore(docSnapshot);
-        if(_currentDriver.value?.profileCompleted == false) {
+      if (driver.profileCompleted == false) {
+        // S'assure de ne pas être déjà sur la page pour éviter les boucles de redirection
+        if (Get.currentRoute != Routes.profileCompletion) {
           Get.offAllNamed(Routes.profileCompletion);
-        } else {
-          Get.offAllNamed(Routes.home);
         }
       } else {
-        // Le profil n'existe pas, c'est une première inscription.
-        print("Profil chauffeur non trouvé. Appel de la Cloud Function pour le créer...");
-
-        // --- APPEL À LA CLOUD FUNCTION ---
-        final callable = _functions.httpsCallable('finalizeSignUp');
-        final result = await callable.call<Map<String, dynamic>>({
-          'role': 'driver',
-        });
-
-        if (result.data['success'] == true) {
-          print("Cloud Function a réussi. Redirection vers la complétion du profil.");
-          // Le profil de base a été créé. On navigue vers le formulaire pour le compléter.
-          Get.offAllNamed(Routes.profileCompletion); // ou votre route 'registerDriver'
-        } else {
-          throw Exception("La création du profil a échoué côté serveur.");
+        // Le profil est complet, on va à l'accueil
+        if (Get.currentRoute != Routes.home) {
+          Get.offAllNamed(Routes.home);
         }
       }
-    } catch (e) {
-      Get.snackbar('Erreur Critique', 'Impossible de configurer votre profil. $e');
-      await logout(); // Déconnecter l'utilisateur en cas d'erreur grave
+    } else {
+      // Le document n'existe pas ENCORE. C'est probablement une première inscription.
+      // On déclenche la Cloud Function pour le créer.
+      // Après l'exécution de la fonction, Firestore enverra un nouvel événement
+      // à notre écouteur, et on passera dans le bloc "if (docSnapshot.exists)".
+      try {
+        final callable = _functions.httpsCallable('finalizeSignUp');
+        final result = await callable.call<Map<String, dynamic>>({'role': 'driver'});
+        if (result.data['success'] != true) {
+          throw Exception("La création du profil via la Cloud Function a échoué.");
+        }
+        // Pas besoin de naviguer ici, l'écouteur s'en chargera au prochain événement.
+      } catch (e) {
+        Get.snackbar('Erreur Critique', 'Impossible de finaliser votre profil. $e');
+        await logout();
+      }
     }
   }
 

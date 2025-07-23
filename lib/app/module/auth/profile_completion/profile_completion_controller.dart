@@ -134,7 +134,6 @@ class ProfileCompletionController extends GetxController {
       Get.offAllNamed(Routes.home);
 
     } catch (e) {
-      print(e);
       Get.snackbar("Erreur finale", "Impossible de sauvegarder votre profil");    }
     finally {
       isLoading.value = false;
