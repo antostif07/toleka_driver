@@ -12,6 +12,7 @@ import 'package:toleka_driver/app/module/home/widgets/weekly_challenges_widget.d
 import 'package:toleka_driver/app/services/auth_services.dart';
 import '../../services/driver_map_service.dart';
 import 'home_controller.dart';
+import 'widgets/earnings_tab_content.dart';
 import 'widgets/panel_clipper.dart';
 import 'widgets/status_banner_widget.dart';
 
@@ -186,7 +187,7 @@ class HomeScreen extends GetView<HomeController> {
               index: controller.selectedTabIndex.value,
               children: [
                 _buildDriveTabContent(context),    // Index 0
-                _buildEarningsTabContent(context), // Index 1
+                EarningsTabContent(), // Index 1
               ],
             ),
           ),

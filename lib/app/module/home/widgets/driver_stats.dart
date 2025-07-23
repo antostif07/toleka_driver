@@ -21,7 +21,7 @@ class DriverStats extends StatelessWidget {
             // Colonne 1: Gains
             _buildStatColumn(
               titre: 'Gains',
-              valeur: '\$12.2',
+              valeur: 'CDF 12.2',
             ),
 
             // Séparateur vertical
@@ -68,15 +68,15 @@ class DriverStats extends StatelessWidget {
           titre,
           style: TextStyle(
             color: Colors.grey.shade600,
-            fontSize: 14,
+            fontSize: 12,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 4),
         Text(
           valeur,
           style: const TextStyle(
             color: Colors.black87,
-            fontSize: 20,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
         ),
